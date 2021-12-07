@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<comment>회원 관련 쿼리문</comment>
+
+	<entry key="selectList">
+
+		SELECT *
+		FROM (
+		SELECT ROWNUM RNUM, A.*
+		FROM (
+		SELECT
+		F_NO, F_TITLE, MEMBER_ID, T_COUNT, CREATE_DATE
+		FROM F_BOARD F
+		JOIN
+		MEMBER M ON (F.BOARD_WRITER = M.MEMBER_NO)
+		WHERE F.STATUS = 'Y'
+		ORDER BY
+		CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectListCount">
+		SELECT COUNT(*) COUNT
+		FROM F_BOARD
+		WHERE STATUS = 'Y'
+	</entry>
+
+	<entry key="increaseCount">
+		UPDATE F_BOARD
+		SET T_COUNT = T_COUNT + 1
+		WHERE F_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+
+	<entry key="selectBoard">
+		SELECT F_NO, MEMBER_ID, T_COUNT, CREATE_DATE, F_TITLE,
+		CONTENT
+		FROM F_BOARD B
+		JOIN MEMBER M ON (B.BOARD_WRITER = M.MEMBER_NO)
+		WHERE B.F_NO = ?
+		AND B.STATUS = 'Y'
+	</entry>
+
+	<entry key="maxBoard">
+		SELECT MAX(F_NO) max_NO
+		FROM F_BOARD
+	</entry>
+
+
+</properties>

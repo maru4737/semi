@@ -1,0 +1,17 @@
+package com.kh.f_board.model.vo;
+
+import java.sql.Date;
+
+public class Board {
+	
+	list.add(new Board(rset.getInt("F_NO"),rset.getString("F_TITLE"), rset.getString("MEMBER_ID"),
+			 rset.getString("COUNT"),rset.getDate("CREATE_DATE")));
+
+}
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+package com.kh.f_board.model.service;
+
+import static com.kh.common.JDBCTemplate.*;
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import com.kh.common.model.vo.PageInfo;
+import com.kh.f_board.model.dao.BoardDao;
+import com.kh.f_board.model.vo.Board;
+
+public class BoardService {
+
+	public ArrayList<Board> selectList(PageInfo pi) {
+		Connection conn = getConnection();
+
+		ArrayList<Board> list = new BoardDao().selectList(conn, pi);
+
+		close(conn);
+
+		return list;
+	}
+
+	public int selectListCount() {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().selectListCount(conn);
+		// SELECT 문의 결과는 ResultSet 이 맞긴한데
+		// 상식적으로 생각해보면 게시글의 총 갯수는 정수형
+
+		close(conn);
+
+		return listCount;
+	}
+
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<comment>회원 관련 쿼리문</comment>
+
+	<entry key="selectList">
+
+		SELECT *
+		FROM (
+		SELECT ROWNUM RNUM, A.*
+		FROM (
+		SELECT F_NO, F_TITLE, MEMBER_ID, T_COUNT, CREATE_DATE
+		FROM F_BOARD F
+		JOIN MEMBER ON (BOARD_WRITER = MEMBER_ID)
+		WHERE F.STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectListCount">
+		SELECT COUNT(*) COUNT
+		FROM F_BOARD
+		WHERE STATUS = 'Y'
+	</entry>
+
+
+</properties>

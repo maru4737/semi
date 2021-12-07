@@ -1,0 +1,281 @@
+package com.kh.f_board.model.dao;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import com.kh.common.model.vo.PageInfo;
+import com.kh.f_board.model.vo.Attachment;
+import com.kh.f_board.model.vo.Board;
+
+import static com.kh.common.JDBCTemplate.*;
+
+public class BoardDao {
+
+	private Properties prop = new Properties();
+
+	public BoardDao() {
+
+		String fileName = BoardDao.class.getResource("/sql/f_board/f_board-mapper.xml").getPath();
+
+		try {
+			prop.loadFromXML(new FileInputStream(fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<Board> selectList(Connection conn, PageInfo pi) {
+		ArrayList<Board> list = new ArrayList<>();
+
+		PreparedStatement pstmt = null;
+
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectList");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+
+				list.add(new Board(rset.getInt("F_NO"), rset.getString("F_TITLE"), rset.getString("MEMBER_ID"),
+						rset.getString("T_COUNT"), rset.getDate("CREATE_DATE")));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return list;
+	}
+
+	public int selectListCount(Connection conn) {
+		int listCount = 0;
+
+		PreparedStatement pstmt = null;
+
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectListCount");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				listCount = rset.getInt("COUNT");
+				System.out.println(listCount);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return listCount;
+	}
+
+	public int increaseCount(Connection conn, int boardNo) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("increaseCount");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, boardNo);
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public Board selectBoard(Connection conn, int boardNo) {
+		Board b = null;
+
+		PreparedStatement pstmt = null;
+
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectBoard");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, boardNo);
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				b = new Board(rset.getInt("F_NO"), rset.getString("MEMBER_ID"), rset.getString("T_COUNT"),
+						rset.getDate("CREATE_DATE"), rset.getString("F_TITLE"), rset.getString("CONTENT"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return b;
+	}
+
+	public int maxBoard(Connection conn) {
+		
+		int m = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("maxBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset.next()) {
+				m = rset.getInt("max_NO");
+				System.out.println(m);
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return m;
+		
+	}
+
+	public int insertBoard(Connection conn, Board b) {
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("insertBoard");
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, b.getF_TITLE());
+			pstmt.setString(2, b.getCONTENT());
+			pstmt.setInt(3, Integer.parseInt(b.getBOARD_WRITER()));
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int insertAttachmentList(Connection conn, ArrayList<Attachment> list) {
+
+
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+
+		String sql = prop.getProperty("insertAttachmentList");
+
+		// 반복적으로 리스트에 접근해서 한개씩 INSERT
+		try {
+			for (Attachment at : list) {
+				// 반복문이 돌 때 마다 미완성된 SQL 문을 담은 pstmt 객체 생성
+				pstmt = conn.prepareStatement(sql);
+
+				// 완성형태로 만들기 => at 로 부터 뽑아오기
+				pstmt.setString(1, at.getOriginName());
+				pstmt.setString(2, at.getChangeName());
+				pstmt.setString(3, at.getFilePath());
+				
+				// 실행
+				result = pstmt.executeUpdate();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public ArrayList<Attachment> selectAttachmentList(Connection conn, int boardNo) {
+		ArrayList<Attachment> list = new ArrayList<>();
+
+		PreparedStatement pstmt = null;
+
+		ResultSet rset = null;
+
+		String sql = prop.getProperty("selectAttachment"); 
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, boardNo);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+
+				Attachment at = new Attachment();
+
+				at.setFileNo(rset.getInt("FILE_NO"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+				at.setFilePath(rset.getString("FILE_PATH"));
+
+				list.add(at);
+			}System.out.println(list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return list;
+	}
+
+	}
+	

@@ -1,0 +1,267 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자유게시판</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <style>
+    .wrap {
+      width: 1200px;
+      margin: 0px auto;
+      text-align: center;
+    }
+
+  
+
+    #board-side {
+      float: left;
+      width: 20%;
+    }
+
+    #board-title {
+      width: 200px;
+      height: 200px;
+      background: green;
+      font-size: 25px;
+      font-display: none;
+      text-decoration: none;
+      text-align: center;
+      color: white;
+      text-align: center;
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    #board-center {
+      float: left;
+      padding: 30px;
+      width: 80%;
+    }
+
+    #board-center-body {
+      width: 100%;
+      text-align: center;
+    }
+
+    .hr1 {
+      border: 0;
+      height: 2px;
+      background: green;
+    }
+
+    .table-side td {
+      border: 1px solid lightgrey;
+      width: 200px;
+      height: 50px;
+      text-indent: 10px;
+      text-align: left;
+    }
+
+    .table-side tr:hover {
+      color: green;
+    }
+
+    #pagination {
+      display: inline-block;
+    }
+
+    #btn-write {
+      float: right;
+      margin-right: 20px;
+    }
+
+    #board-center-header {
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+
+<%@ include file ="../common/header1.jsp" %> 
+
+  <div class="wrap">
+	
+    <div id="board-body">
+      <div id="board-side">
+        <div id="board-title" onclick="location.href=''" style="cursor: pointer;"><span>후기 게시판</span><br>COMUUNITY</div>
+        <table class="table-side">
+          <tr>
+            <td>공지사항</td>
+          </tr>
+          <tr>
+            <td>1:1 문의</td>
+          </tr>
+          <tr>
+            <td>FAQ문의</td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="board-center">
+        <div id="board-center-header">
+          <h2>후기 게시판</h2>
+        </div>
+        <hr class="hr1">
+        <div id="board-center-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 8%; text-align: center;">번호</th>
+                <th scope="col" style="width: 47%; text-align: center;">제목</th>
+                <th scope="col" style="width: 15%;">글쓴이</th>
+                <th scope="col" style="width: 15%;">조회</th>
+                <th scope="col" style="width: 15%;">날짜</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Title - 1</td>
+                <td>박성호</td>
+                <td>222</td>
+                <td>2021-11-20</td>
+              </tr>
+
+
+          </table>
+          <div id="btn-write">
+            <input type="button" value="게시글 작성">
+          </div>
+        </div>
+
+        <br>
+        <br>
+        <div id="pagination">
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <a class="page-link" href="#">&laquo;</a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">4</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">5</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">6</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">7</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">8</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">9</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">10</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">&raquo;</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</body>
+
+</html>
